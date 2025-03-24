@@ -31,6 +31,8 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Subsystem;
 import frc.robot.subsystems.leds.LEDs;
+import au.grapplerobotics.CanBridge;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -42,6 +44,12 @@ import frc.robot.subsystems.leds.LEDs;
  * project.
  */
 public class Robot extends LoggedRobot {
+
+  public Robot() {
+    CanBridge.runTCP();
+    // ...
+  }
+
   // Controller
   private final DriverController m_driverController = new DriverController(0, true, true);
   private final OperatorController m_operatorController = new OperatorController(1, true, true);

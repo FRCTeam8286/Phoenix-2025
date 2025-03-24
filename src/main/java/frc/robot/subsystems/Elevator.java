@@ -135,7 +135,7 @@ public class Elevator extends Subsystem {
     mPeriodicIO.is_elevator_pos_control = false;
     mPeriodicIO.elevator_power = 0.0;
 
-    mLeftMotor.set(0.0);
+    mLeftMotor.set(1.0);
   }
 
   @Override

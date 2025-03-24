@@ -10,9 +10,6 @@ public class OperatorController extends FilteredController {
     super(port, useDeadband, useSquaredInput);
   }
 
-  // Axis
-  private final double k_triggerActivationThreshold = 0.5;
-
   // CORAL
   public boolean getWantsCoralIntake() {
     return this.getRawButton(1);
@@ -48,10 +45,10 @@ public class OperatorController extends FilteredController {
   }
 
   public boolean getWantsGroundAlgae() {
-    return this.getHatLeft();
+    return this.getRawButton(12);
   }
 
   public boolean getWantsStopAlgae() {
-    return this.getHatRight();
+    return this.getRawButton(11);
   }
 }

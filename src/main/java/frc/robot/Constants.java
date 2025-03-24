@@ -23,13 +23,13 @@ public class Constants {
     public static final double kMaxVelocity = 65;
     public static final double kMaxAcceleration = 200;
 
-    public static final int kMaxCurrent = 40;
+    public static final int kMaxCurrent = 60;
 
     public static final double kStowHeight = 0.0;
-    public static final double kL2Height = 9.0;
-    public static final double kL3Height = 25.14;
-    public static final double kL4Height = 52.0;
-    public static final double kMaxHeight = 56.2;
+    public static final double kL2Height = 250.0;
+    public static final double kL3Height = 520.14;
+    public static final double kL4Height = 950.0;
+    public static final double kMaxHeight = 560.2;
     public static final double kGroundAlgaeHeight = 0.0;
     public static final double kScoreAlgaeHeight = 0.0;
     public static final double kLowAlgaeHeight = 24.8;
@@ -40,10 +40,10 @@ public class Constants {
     public static final int kLeftMotorId = 11;
     public static final int kRightMotorId = 12;
 
-    public static final int kLaserId = 0;
+    public static final int kLaserId =20;
     public static final int kColorId = 16;
 
-    public static final double kMaxCurrent = 20;
+    public static final double kMaxCurrent = 60;
 
     public static final double kP = 0.0;
     public static final double kI = 0.0;
