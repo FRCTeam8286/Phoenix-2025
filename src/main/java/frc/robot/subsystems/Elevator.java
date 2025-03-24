@@ -36,8 +36,6 @@ public class Elevator extends Subsystem {
   private RelativeEncoder mLeftEncoder;
   private SparkClosedLoopController mLeftPIDController;
 
-  private SimulatableCANSparkMax mRightMotor;
-
   private TrapezoidProfile mProfile;
   private TrapezoidProfile.State mCurState = new TrapezoidProfile.State();
   private TrapezoidProfile.State mGoalState = new TrapezoidProfile.State();
@@ -65,13 +63,6 @@ public class Elevator extends Subsystem {
     mLeftPIDController = mLeftMotor.getClosedLoopController();
     mLeftMotor.configure(
         elevatorConfig,
-        ResetMode.kResetSafeParameters,
-        PersistMode.kPersistParameters);
-
-    // RIGHT ELEVATOR MOTOR
-    mRightMotor = new SimulatableCANSparkMax(Constants.Elevator.kElevatorRightMotorId, MotorType.kBrushless);
-    mRightMotor.configure(
-        elevatorConfig.follow(mLeftMotor, true),
         ResetMode.kResetSafeParameters,
         PersistMode.kPersistParameters);
 
@@ -157,10 +148,8 @@ public class Elevator extends Subsystem {
     putNumber("Velocity/Setpoint", mCurState.velocity);
 
     putNumber("Current/Left", mLeftMotor.getOutputCurrent());
-    putNumber("Current/Right", mRightMotor.getOutputCurrent());
 
     putNumber("Output/Left", mLeftMotor.getAppliedOutput());
-    putNumber("Output/Right", mRightMotor.getAppliedOutput());
 
     putNumber("State", mPeriodicIO.state);
   }

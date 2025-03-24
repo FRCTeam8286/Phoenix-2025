@@ -12,7 +12,7 @@ public class Constants {
 
   public static class Elevator {
     public static final int kElevatorLeftMotorId = 9;
-    public static final int kElevatorRightMotorId = 10;
+    // public static final int kElevatorRightMotorId = 10;
 
     public static final double kP = 0.15;
     public static final double kI = 0;
