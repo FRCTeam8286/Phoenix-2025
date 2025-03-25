@@ -184,7 +184,6 @@ public class Algae extends Subsystem {
   /*---------------------------------- Custom Private Functions ---------------------------------*/
 
   public double getWristAngle() {
-    // TODO:
     // This used to be `getAbsolutePosition` in the old API
     // but I'm not sure if `get` is the correct replacement
     return Units.rotationsToDegrees(mWristAbsEncoder.get());

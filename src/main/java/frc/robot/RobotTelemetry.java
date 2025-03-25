@@ -29,7 +29,6 @@ public class RobotTelemetry {
         break;
     }
 
-    // TODO: this
     // Logger.recordMetadata("RobotType", RobotConstants.getRobotType().name());
     // Logger.recordMetadata("ProjectName", "Apollo, Eater of Batteries");
 

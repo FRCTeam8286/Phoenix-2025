@@ -95,7 +95,6 @@ public class Elevator extends Subsystem {
 
   @Override
   public void periodic() {
-    // TODO: Use this pattern to only drive slowly when we're really high up
     // if(mPivotEncoder.getPosition() > Constants.kPivotScoreCount) {
     // mPeriodicIO.is_pivot_low = true;
     // } else {

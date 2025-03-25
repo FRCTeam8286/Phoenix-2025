@@ -15,7 +15,6 @@ public class DriverController extends FilteredController {
 
   // Axis
   private final double k_triggerActivationThreshold = 0.5;
-  private double k_lastTriggerValue = 0.0;
 
   public double getForwardAxis() {
     return -this.getFilteredAxis(1);

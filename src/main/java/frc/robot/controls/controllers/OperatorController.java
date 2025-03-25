@@ -51,4 +51,7 @@ public class OperatorController extends FilteredController {
   public boolean getWantsStopAlgae() {
     return this.getRawButton(11);
   }
+public boolean getWantsStopCoralIntake() {
+  return this.getRawButton(2);
+}
 }

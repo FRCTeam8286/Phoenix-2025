@@ -18,7 +18,6 @@ public class SimulatableCANSparkMax extends SparkMax {
     mCANSparkMaxSim = new SimDeviceSim("SPARK MAX ", deviceId);
     mCANSparkMaxSimAppliedOutput = mCANSparkMaxSim.getDouble("Applied Output");
 
-    // TODO: Add other simulation fields
   }
 
   @Override
@@ -33,7 +32,6 @@ public class SimulatableCANSparkMax extends SparkMax {
   public void set(double speed) {
     super.set(speed);
 
-    // TODO: Figure out why this is mad when running on a real robot
     // mCANSparkMaxSimAppliedOutput.set(speed);
   }
 }

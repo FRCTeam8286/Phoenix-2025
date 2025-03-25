@@ -20,15 +20,15 @@ public class Constants {
     public static final double kIZone = 5.0;
     public static final double kG = 0.5;
 
-    public static final double kMaxVelocity = 65;
+    public static final double kMaxVelocity = 80;
     public static final double kMaxAcceleration = 200;
 
-    public static final int kMaxCurrent = 60;
+    public static final int kMaxCurrent = 100;
 
     public static final double kStowHeight = 0.0;
     public static final double kL2Height = 250.0;
-    public static final double kL3Height = 520.14;
-    public static final double kL4Height = 950.0;
+    public static final double kL3Height = 510.14;
+    public static final double kL4Height = 0.0;
     public static final double kMaxHeight = 560.2;
     public static final double kGroundAlgaeHeight = 0.0;
     public static final double kScoreAlgaeHeight = 0.0;
@@ -50,7 +50,7 @@ public class Constants {
     public static final double kD = 0.0;
     public static final double kIZone = 0;
 
-    public static final double kIntakeSpeed = 0.3;
+    public static final double kIntakeSpeed = 0.6;
     public static final double kReverseSpeed = -0.3;
     public static final double kL1Speed = 0.4;
     public static final double kL24Speed = 0.4;
