@@ -20,8 +20,7 @@ import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-import frc.robot.autonomous.AutoRunner;
-import frc.robot.autonomous.tasks.Task;
+
 import frc.robot.controls.controllers.DriverController;
 import frc.robot.controls.controllers.OperatorController;
 import frc.robot.simulation.Field;
@@ -69,9 +68,7 @@ public class Robot extends LoggedRobot {
   public final LEDs m_leds = LEDs.getInstance();
 
   // Auto stuff
-  private Task m_currentTask;
-  private AutoRunner m_autoRunner = AutoRunner.getInstance();
-
+ 
   // Simulation stuff
   private final Field m_field = Field.getInstance();
 
@@ -114,34 +111,12 @@ public class Robot extends LoggedRobot {
 
   @Override
   public void autonomousInit() {
-    m_currentTask = m_autoRunner.getNextTask();
-
-    // Start the first task
-    if (m_currentTask != null) {
-      m_currentTask.start();
-    }
+ 
   }
 
   @Override
-  public void autonomousPeriodic() {
-    // If there is a current task, run it
-    if (m_currentTask != null) {
-      // Run the current task
-      m_currentTask.update();
-      m_currentTask.updateSim();
+  public void autonomousPeriodic() {}
 
-      // If the current task is finished, get the next task
-      if (m_currentTask.isFinished()) {
-        m_currentTask.done();
-        m_currentTask = m_autoRunner.getNextTask();
-
-        // Start the next task
-        if (m_currentTask != null) {
-          m_currentTask.start();
-        }
-      }
-    }
-  }
 
   @Override
   public void teleopInit() {
@@ -212,7 +187,7 @@ public class Robot extends LoggedRobot {
     } else if (m_operatorController.getWantsCoralIntake()) {
       m_coral.intake();
     }
-
+   
     // if (m_driverController.getWantsScoreCoral()) {
     // if (m_elevator.getState() == Elevator.ElevatorState.STOW) {
     // m_coral.scoreL1();
@@ -239,7 +214,7 @@ public class Robot extends LoggedRobot {
     speed = 0;
     m_allSubsystems.forEach(subsystem -> subsystem.stop());
 
-    // TODO: reset the auto state stuff if we're in dev mode
+     
   }
 
   @Override
@@ -294,7 +269,7 @@ public class Robot extends LoggedRobot {
     if (isReal()) {
       new WPILOGWriter(); // Log to the RoboRIO
 
-      // TODO: Add the next line back with a USB stick
+       
       // Logger.addDataReceiver(new WPILOGWriter()); // Log to a USB stick ("/U/logs")
       Logger.addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables
       new PowerDistribution(1, ModuleType.kCTRE); // Enables power distribution logging

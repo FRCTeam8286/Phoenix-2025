@@ -10,9 +10,9 @@ import static edu.wpi.first.units.Units.Volts;
 import org.littletonrobotics.junction.AutoLogOutput;
 
 import com.kauailabs.navx.frc.AHRS;
-import com.pathplanner.lib.config.ModuleConfig;
-import com.pathplanner.lib.config.RobotConfig;
-import com.pathplanner.lib.util.DriveFeedforwards;
+//import com.pathplanner.lib.config.ModuleConfig;
+//import com.pathplanner.lib.config.RobotConfig;
+
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
@@ -99,20 +99,7 @@ public class Drivetrain extends Subsystem {
   private final SimpleMotorFeedforward mRightFeedforward = new SimpleMotorFeedforward(Constants.Drive.kS,
       Constants.Drive.kV, Constants.Drive.kA);
 
-  private final ModuleConfig moduleConfig = new ModuleConfig(
-      Distance.ofBaseUnits(kWheelRadius, Meters), // wheel radius
-      LinearVelocity.ofBaseUnits(kMaxSpeed, MetersPerSecond),
-      1.0, // coefficient of friction (1.0 is a placeholder value)
-      DCMotor.getCIM(2),
-      Current.ofBaseUnits(1, Amps), // Another placeholder
-      2);
-
-  private final RobotConfig robotConfig = new RobotConfig(
-      Mass.ofBaseUnits(30, Kilogram),
-      MomentOfInertia.ofBaseUnits(1, KilogramSquareMeters),
-      moduleConfig,
-      Distance.ofBaseUnits(mKinematics.trackWidthMeters, Meters));
-
+ 
   /*********
    * SysId *
    *********/
@@ -300,10 +287,7 @@ public class Drivetrain extends Subsystem {
     mPeriodicIO.diffWheelSpeeds = mKinematics.toWheelSpeeds(speeds);
   }
 
-  public void drive(ChassisSpeeds speeds, DriveFeedforwards feedforwards) {
-    // TODO: Implement feedforwards
-    drive(speeds);
-  }
+ 
 
   public void clearTurnPIDAccumulation() {
     mLeftPIDController.reset();
@@ -353,9 +337,8 @@ public class Drivetrain extends Subsystem {
     return mKinematics.toChassisSpeeds(wheelSpeeds);
   }
 
-  public RobotConfig getRobotConfig() {
-    return robotConfig;
-  }
+ 
+  
 
   /** Update our simulation. This should be run every robot loop in simulation. */
   public void simulationPeriodic() {
