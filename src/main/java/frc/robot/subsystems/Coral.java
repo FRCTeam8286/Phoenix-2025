@@ -204,4 +204,9 @@ public class Coral extends Subsystem {
         break;
     }
   }
+
+public void stopIntake() {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'stopIntake'");
+}
 }

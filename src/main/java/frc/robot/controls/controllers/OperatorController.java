@@ -54,4 +54,9 @@ public class OperatorController extends FilteredController {
 public boolean getWantsStopCoralIntake() {
   return this.getRawButton(2);
 }
+public boolean getWantsBackupAndTurn() {
+  return this.getRawButton(5);}
+  public boolean getWantsForwardAndTurn() {
+    return this.getRawButton(6);
+}
 }

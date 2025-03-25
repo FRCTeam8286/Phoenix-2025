@@ -186,25 +186,34 @@ public class Robot extends LoggedRobot {
       m_algae.groundIntake();
     } else if (m_operatorController.getWantsCoralIntake()) {
       m_coral.intake();
+    } else if (m_operatorController.getWantsStopCoralIntake()) { // Check if button 2 is pressed
+      m_coral.stopIntake(); // Call the method to stop the coral intake
     }
-   
+    m_drive.backup(1.0); // Backup 1 meter
+    m_drive.turn(45); // Turn 45 degrees
+    m_drive.forward(1.0); // Move forward 1 meter
+  
+    m_drive.backup(1.0); // Backup 1 meter
+    m_drive.turn(-45); // Turn 45 degrees
+    m_drive.forward(1.0); } // Move forward 1 meter
+    
+  
     // if (m_driverController.getWantsScoreCoral()) {
-    // if (m_elevator.getState() == Elevator.ElevatorState.STOW) {
-    // m_coral.scoreL1();
-    // } else {
-    // m_coral.scoreL24();
-    // }
-    // } else if (m_driverController.getWantsIntakeCoral()) {
-    // m_coral.intake();
-    // m_elevator.goToElevatorStow();
-    // }
-
-    // if (m_operatorController.getWantsElevatorReset() ||
-    // m_driverController.getWantsElevatorReset()) {
-    // RobotTelemetry.print("Resetting elevator");
-    // m_elevator.reset();
-    // }
-  }
+  // if (m_elevator.getState() == Elevator.ElevatorState.STOW) {
+  // m_coral.scoreL1();
+  // } else {
+  // m_coral.scoreL24();
+  // }
+  // } else if (m_driverController.getWantsIntakeCoral()) {
+  // m_coral.intake();
+  // m_elevator.goToElevatorStow();
+  // }
+  
+  // if (m_operatorController.getWantsElevatorReset() ||
+  // m_driverController.getWantsElevatorReset()) {
+  // RobotTelemetry.print("Resetting elevator");
+  // m_elevator.reset();
+  // }
 
   @Override
   public void disabledInit() {

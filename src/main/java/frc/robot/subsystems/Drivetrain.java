@@ -397,4 +397,19 @@ public class Drivetrain extends Subsystem {
   public Command sysIdDynamic(SysIdRoutine.Direction direction) {
     return mSysIdRoutine.dynamic(direction);
   }
+
+  public void backup(double d) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'backup'");
+  }
+
+public void turn(int i) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'turn'");
+}
+
+public void forward(double d) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'forward'");
+}
 }
