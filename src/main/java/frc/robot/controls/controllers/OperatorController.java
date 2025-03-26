@@ -17,7 +17,7 @@ public class OperatorController extends FilteredController {
 
   // ELEVATOR
   public boolean getWantsElevatorReset() {
-    return this.getRawButton(11);
+    return this.getRawButton(5);
   }
 
   public boolean getWantsElevatorStow() {
@@ -51,4 +51,12 @@ public class OperatorController extends FilteredController {
   public boolean getWantsStopAlgae() {
     return this.getRawButton(11);
   }
+
+  public boolean getWantsWristUp() {
+    return this.getRawButton(3); // Button 3 for moving the wrist up
+}
+
+public boolean getWantsWristDown() {
+    return this.getRawButton(4); // Button 4 for moving the wrist down
+}
 }

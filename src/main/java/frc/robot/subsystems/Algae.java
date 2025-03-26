@@ -13,8 +13,10 @@ import edu.wpi.first.math.util.Units;
 import frc.robot.Constants;
 import frc.robot.simulation.SimulatableCANSparkMax;
 import frc.robot.wrappers.REVThroughBoreEncoder;
+import edu.wpi.first.wpilibj.Timer;
 
 public class Algae extends Subsystem {
+  
 
   /*-------------------------------- Private instance variables ---------------------------------*/
   private static Algae mInstance;
@@ -59,6 +61,8 @@ public class Algae extends Subsystem {
         wristConfig,
         ResetMode.kResetSafeParameters,
         PersistMode.kPersistParameters);
+    
+    mWristMotor.set(0);
 
     // Wrist PID
     mWristPIDController = new ProfiledPIDController(
@@ -106,7 +110,7 @@ public class Algae extends Subsystem {
   public void periodic() {
     double pidCalc = mWristPIDController.calculate(getWristAngle(), mPeriodicIO.wrist_target_angle);
     double ffCalc = mWristFeedForward.calculate(Math.toRadians(getWristReferenceToHorizontal()),
-        Math.toRadians(mWristPIDController.getSetpoint().velocity));
+      Math.toRadians(mWristPIDController.getSetpoint().velocity));
 
     mPeriodicIO.wrist_voltage = pidCalc + ffCalc;
   }

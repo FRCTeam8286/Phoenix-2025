@@ -20,15 +20,15 @@ public class Constants {
     public static final double kIZone = 5.0;
     public static final double kG = 0.5;
 
-    public static final double kMaxVelocity = 65;
+    public static final double kMaxVelocity = 100;
     public static final double kMaxAcceleration = 200;
 
     public static final int kMaxCurrent = 60;
 
     public static final double kStowHeight = 0.0;
-    public static final double kL2Height = 250.0;
-    public static final double kL3Height = 520.14;
-    public static final double kL4Height = 950.0;
+    public static final double kL2Height = 165.0;
+    public static final double kL3Height = 375.15;
+    public static final double kL4Height = 0.0;
     public static final double kMaxHeight = 560.2;
     public static final double kGroundAlgaeHeight = 0.0;
     public static final double kScoreAlgaeHeight = 0.0;
@@ -65,9 +65,9 @@ public class Constants {
 
     public static final int kWristEncoderId = 9;
 
-    public static final int kMaxWristCurrent = 10;
+    public static final int kMaxWristCurrent = 1;
 
-    public static final double kWristP = 0.01;
+    public static final double kWristP = 0.0001;
     public static final double kWristI = 0.0;
     public static final double kWristD = 0.0;
 
@@ -76,14 +76,14 @@ public class Constants {
     public static final double kWristKV = 0.100;
     public static final double kWristKA = 0.0;
 
-    public static final double kWristOffset = 141.0;
+    public static final double kWristOffset = 0.0;
 
-    public static final double kWristMaxVelocity = 690.0;
-    public static final double kWristMaxAcceleration = 1380.0;
+    public static final double kWristMaxVelocity = 0.1;
+    public static final double kWristMaxAcceleration = 0.3;
 
-    public static final double kStowAngle = 233.0;
-    public static final double kDeAlgaeAngle = 215.0;
-    public static final double kGroundIntakeAngle = 162.0;
+    public static final double kStowAngle = 356.0;
+    public static final double kDeAlgaeAngle = 236.0;
+    public static final double kGroundIntakeAngle = 283.0;
 
     // INTAKE
     public static final int kMaxIntakeCurrent = 20;

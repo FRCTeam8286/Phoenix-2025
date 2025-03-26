@@ -29,6 +29,7 @@ import frc.robot.subsystems.Algae;
 import frc.robot.subsystems.Coral;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Elevator;
+// import frc.robot.subsystems.Wrist; // Removed as Wrist class is not found
 import frc.robot.subsystems.Subsystem;
 import frc.robot.subsystems.leds.LEDs;
 import au.grapplerobotics.CanBridge;
@@ -45,173 +46,177 @@ import au.grapplerobotics.CanBridge;
  */
 public class Robot extends LoggedRobot {
 
-  public Robot() {
-    CanBridge.runTCP();
-    // ...
-  }
-
-  // Controller
-  private final DriverController m_driverController = new DriverController(0, true, true);
-  private final OperatorController m_operatorController = new OperatorController(1, true, true);
-  private final GenericHID sysIdController = new GenericHID(2);
-
-  // private final SlewRateLimiter m_speedLimiter = new
-  // SlewRateLimiter(Drivetrain.kMaxAcceleration);
-  private final SlewRateLimiter m_rotLimiter = new SlewRateLimiter(Math.PI * 8);
-
-  // Robot subsystems
-  private List<Subsystem> m_allSubsystems = new ArrayList<>();
-  private final Drivetrain m_drive = Drivetrain.getInstance();
-  private final Coral m_coral = Coral.getInstance();
-  private final Algae m_algae = Algae.getInstance();
-  private final Elevator m_elevator = Elevator.getInstance();
-
-  public final LEDs m_leds = LEDs.getInstance();
-
-  // Auto stuff
-  private Task m_currentTask;
-  private AutoRunner m_autoRunner = AutoRunner.getInstance();
-
-  // Simulation stuff
-  private final Field m_field = Field.getInstance();
-
-  /**
-   * This function is run when the robot is first started up.
-   */
-  @Override
-  public void robotInit() {
-    CameraServer.startAutomaticCapture();
-
-    setupLogging();
-
-    // Add all subsystems to the list
-    // m_allSubsystems.add(m_compressor);
-    m_allSubsystems.add(m_drive);
-    m_allSubsystems.add(m_coral);
-    m_allSubsystems.add(m_algae);
-    m_allSubsystems.add(m_elevator);
-
-    m_allSubsystems.add(m_leds);
-
-    // Set up the Field2d object for simulation
-    SmartDashboard.putData("Field", m_field);
-  }
-
-  @Override
-  public void robotPeriodic() {
-    m_allSubsystems.forEach(subsystem -> subsystem.periodic());
-    m_allSubsystems.forEach(subsystem -> subsystem.writePeriodicOutputs());
-    m_allSubsystems.forEach(subsystem -> subsystem.outputTelemetry());
-    m_allSubsystems.forEach(subsystem -> subsystem.writeToLog());
-
-    updateSim();
-
-    // Used by sysid
-    if (this.isTestEnabled()) {
-      CommandScheduler.getInstance().run();
+  private static final Coral m_wrist = null;
+  
+    public Robot() {
+      CanBridge.runTCP();
+      // ...
     }
-  }
-
-  @Override
-  public void autonomousInit() {
-    m_currentTask = m_autoRunner.getNextTask();
-
-    // Start the first task
-    if (m_currentTask != null) {
-      m_currentTask.start();
+  
+    // Controller
+    private final DriverController m_driverController = new DriverController(0, true, true);
+    private final OperatorController m_operatorController = new OperatorController(1, true, true);
+    private final GenericHID sysIdController = new GenericHID(2);
+  
+    // private final SlewRateLimiter m_speedLimiter = new
+    // SlewRateLimiter(Drivetrain.kMaxAcceleration);
+    private final SlewRateLimiter m_rotLimiter = new SlewRateLimiter(Math.PI * 8);
+  
+    // Robot subsystems
+    private List<Subsystem> m_allSubsystems = new ArrayList<>();
+    private final Drivetrain m_drive = Drivetrain.getInstance();
+    private final Coral m_coral = Coral.getInstance();
+    private final Algae m_algae = Algae.getInstance();
+    private final Elevator m_elevator = Elevator.getInstance();
+    // private final Wrist m_wrist = Wrist.getInstance(); // Removed as Wrist class is not found
+  
+    public final LEDs m_leds = LEDs.getInstance();
+  
+    // Auto stuff
+    private Task m_currentTask;
+    private AutoRunner m_autoRunner = AutoRunner.getInstance();
+  
+    // Simulation stuff
+    private final Field m_field = Field.getInstance();
+  
+    /**
+     * This function is run when the robot is first started up.
+     */
+    @Override
+    public void robotInit() {
+      CameraServer.startAutomaticCapture();
+  
+      setupLogging();
+  
+      // Add all subsystems to the list
+      // m_allSubsystems.add(m_compressor);
+      m_allSubsystems.add(m_drive);
+      m_allSubsystems.add(m_coral);
+      m_allSubsystems.add(m_algae);
+      m_allSubsystems.add(m_elevator);
+  
+      m_allSubsystems.add(m_leds);
+  
+      // Set up the Field2d object for simulation
+      SmartDashboard.putData("Field", m_field);
     }
-  }
-
-  @Override
-  public void autonomousPeriodic() {
-    // If there is a current task, run it
-    if (m_currentTask != null) {
-      // Run the current task
-      m_currentTask.update();
-      m_currentTask.updateSim();
-
-      // If the current task is finished, get the next task
-      if (m_currentTask.isFinished()) {
-        m_currentTask.done();
-        m_currentTask = m_autoRunner.getNextTask();
-
-        // Start the next task
-        if (m_currentTask != null) {
-          m_currentTask.start();
+  
+    @Override
+    public void robotPeriodic() {
+      m_allSubsystems.forEach(subsystem -> subsystem.periodic());
+      m_allSubsystems.forEach(subsystem -> subsystem.writePeriodicOutputs());
+      m_allSubsystems.forEach(subsystem -> subsystem.outputTelemetry());
+      m_allSubsystems.forEach(subsystem -> subsystem.writeToLog());
+  
+      updateSim();
+  
+      // Used by sysid
+      if (this.isTestEnabled()) {
+        CommandScheduler.getInstance().run();
+      }
+    }
+  
+    @Override
+    public void autonomousInit() {
+      m_currentTask = m_autoRunner.getNextTask();
+  
+      // Start the first task
+      if (m_currentTask != null) {
+        m_currentTask.start();
+      }
+    }
+  
+    @Override
+    public void autonomousPeriodic() {
+      // If there is a current task, run it
+      if (m_currentTask != null) {
+        // Run the current task
+        m_currentTask.update();
+        m_currentTask.updateSim();
+  
+        // If the current task is finished, get the next task
+        if (m_currentTask.isFinished()) {
+          m_currentTask.done();
+          m_currentTask = m_autoRunner.getNextTask();
+  
+          // Start the next task
+          if (m_currentTask != null) {
+            m_currentTask.start();
+          }
         }
       }
     }
-  }
-
-  @Override
-  public void teleopInit() {
-    m_leds.breathe();
-  }
-
-  double speed = 0;
-  boolean scorePressed = false;
-
-  @Override
-  public void teleopPeriodic() {
-    double maxSpeed = m_driverController.getWantsSpeedMode() ? Drivetrain.kMaxBoostSpeed : Drivetrain.kMaxSpeed;
-
-    // double xSpeed = m_speedLimiter.calculate(m_driverController.getForwardAxis()
-    // * maxSpeed);
-    double xSpeed = m_driverController.getForwardAxis() * maxSpeed;
-
-    // m_drive.slowMode(m_driverController.getWantsSlowMode());
-    // m_drive.speedMode(m_driverController.getWantsSpeedMode());
-    double rot = m_rotLimiter.calculate(m_driverController.getTurnAxis() * Drivetrain.kMaxAngularSpeed);
-
-    m_drive.drive(xSpeed, rot);
-
-    // FINAL DRIVER CONTROLS
-    if (m_driverController.getWantsScoreCoral()) {
-      scorePressed = true;
-
-      if (m_elevator.getState() == Elevator.ElevatorState.STOW) {
-        m_coral.scoreL1();
-      } else {
-        m_coral.scoreL24();
+  
+    @Override
+    public void teleopInit() {
+      m_leds.breathe();
+    }
+  
+    double speed = 0;
+    boolean scorePressed = false;
+  
+    @Override
+    public void teleopPeriodic() {
+      double maxSpeed = m_driverController.getWantsSpeedMode() ? Drivetrain.kMaxBoostSpeed : Drivetrain.kMaxSpeed;
+  
+      // double xSpeed = m_speedLimiter.calculate(m_driverController.getForwardAxis()
+      // * maxSpeed);
+      double xSpeed = m_driverController.getForwardAxis() * maxSpeed;
+  
+      // m_drive.slowMode(m_driverController.getWantsSlowMode());
+      // m_drive.speedMode(m_driverController.getWantsSpeedMode());
+      double rot = m_rotLimiter.calculate(m_driverController.getTurnAxis() * Drivetrain.kMaxAngularSpeed);
+  
+      m_drive.drive(xSpeed, rot);
+  
+      // FINAL DRIVER CONTROLS
+      if (m_driverController.getWantsScoreCoral()) {
+        scorePressed = true;
+  
+        if (m_elevator.getState() == Elevator.ElevatorState.STOW) {
+          m_coral.scoreL1();
+        } else {
+          m_coral.scoreL24();
+        }
+      } else if (scorePressed) {
+        scorePressed = false;
+  
+        m_elevator.goToElevatorStow();
+        m_coral.intake();
+      } else if (m_driverController.getWantsScoreAlgae()) {
+        m_algae.score();
+      } else if (m_driverController.getWantsGroundAlgae()) {
+        m_algae.groundIntake();
       }
-    } else if (scorePressed) {
-      scorePressed = false;
-
-      m_elevator.goToElevatorStow();
-      m_coral.intake();
-    } else if (m_driverController.getWantsScoreAlgae()) {
-      m_algae.score();
-    } else if (m_driverController.getWantsGroundAlgae()) {
-      m_algae.groundIntake();
-    }
-
-    // FINAL OPERATOR CONTROLS
-    if (m_operatorController.getWantsElevatorStow()) {
-      m_elevator.goToElevatorStow();
-      m_algae.stow();
-    } else if (m_operatorController.getWantsElevatorL2()) {
-      m_elevator.goToElevatorL2();
-      m_algae.stow();
-    } else if (m_operatorController.getWantsElevatorL3()) {
-      m_elevator.goToElevatorL3();
-      m_algae.stow();
-    } else if (m_operatorController.getWantsElevatorL4()) {
-      m_elevator.goToElevatorL4();
-      m_algae.stow();
-    } else if (m_operatorController.getWantsA1()) {
-      m_elevator.goToAlgaeLow();
-      m_algae.grabAlgae();
-    } else if (m_operatorController.getWantsA2()) {
-      m_elevator.goToAlgaeHigh();
-      m_algae.grabAlgae();
-    } else if (m_operatorController.getWantsStopAlgae()) {
-      m_algae.stopAlgae();
-      m_algae.stow();
-    } else if (m_operatorController.getWantsGroundAlgae()) {
-      m_algae.groundIntake();
-    } else if (m_operatorController.getWantsCoralIntake()) {
-      m_coral.intake();
-    }
+  
+      // FINAL OPERATOR CONTROLS
+      if (m_operatorController.getWantsElevatorStow()) {
+        m_elevator.goToElevatorStow();
+        m_algae.stow();
+      } else if (m_operatorController.getWantsElevatorL2()) {
+        m_elevator.goToElevatorL2();
+        m_algae.stow();
+      } else if (m_operatorController.getWantsElevatorL3()) {
+        m_elevator.goToElevatorL3();
+        m_algae.stow();
+      } else if (m_operatorController.getWantsElevatorL4()) {
+        m_elevator.goToElevatorL4();
+        m_algae.stow();
+      } else if (m_operatorController.getWantsA1()) {
+        m_elevator.goToAlgaeLow();
+        m_algae.grabAlgae();
+      } else if (m_operatorController.getWantsA2()) {
+        m_elevator.goToAlgaeHigh();
+        m_algae.grabAlgae();
+      } else if (m_operatorController.getWantsStopAlgae()) {
+        m_algae.stopAlgae();
+        m_algae.stow();
+      } else if (m_operatorController.getWantsGroundAlgae()) {
+        m_algae.groundIntake();
+      } else if (m_operatorController.getWantsCoralIntake()) {
+        m_coral.intake();
+      }
+  
 
     // if (m_driverController.getWantsScoreCoral()) {
     // if (m_elevator.getState() == Elevator.ElevatorState.STOW) {
