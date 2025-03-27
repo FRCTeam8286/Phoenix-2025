@@ -46,7 +46,6 @@ import au.grapplerobotics.CanBridge;
  */
 public class Robot extends LoggedRobot {
 
-  private static final Coral m_wrist = null;
   
     public Robot() {
       CanBridge.runTCP();
@@ -215,7 +214,7 @@ public class Robot extends LoggedRobot {
         m_algae.groundIntake();
       } else if (m_operatorController.getWantsCoralIntake()) {
         m_coral.intake();
-      }
+      } 
   
 
     // if (m_driverController.getWantsScoreCoral()) {

@@ -32,8 +32,8 @@ public class Constants {
     public static final double kMaxHeight = 560.2;
     public static final double kGroundAlgaeHeight = 0.0;
     public static final double kScoreAlgaeHeight = 0.0;
-    public static final double kLowAlgaeHeight = 24.8;
-    public static final double kHighAlgaeHeight = 42.5;
+    public static final double kLowAlgaeHeight = 165;
+    public static final double kHighAlgaeHeight = 375.15;
   }
 
   public static class Coral {
@@ -67,9 +67,9 @@ public class Constants {
 
     public static final int kMaxWristCurrent = 1;
 
-    public static final double kWristP = 0.0001;
+    public static final double kWristP = 0.01;
     public static final double kWristI = 0.0;
-    public static final double kWristD = 0.0;
+    public static final double kWristD = 0.001;
 
     public static final double kWristKS = 0.0;
     public static final double kWristKG = 0.0;
@@ -78,8 +78,8 @@ public class Constants {
 
     public static final double kWristOffset = 0.0;
 
-    public static final double kWristMaxVelocity = 0.1;
-    public static final double kWristMaxAcceleration = 0.3;
+    public static final double kWristMaxVelocity = 690;
+    public static final double kWristMaxAcceleration = 1380;
 
     public static final double kStowAngle = 356.0;
     public static final double kDeAlgaeAngle = 236.0;
