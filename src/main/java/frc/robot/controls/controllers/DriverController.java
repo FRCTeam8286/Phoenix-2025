@@ -32,15 +32,9 @@ public class DriverController extends FilteredController {
   public boolean getWantsScoreCoral() {
     return this.getFilteredAxis(3) > k_triggerActivationThreshold;
   }
-
-  public boolean getWantsGroundAlgae() {
-    return this.getRawButton(5);
-  }
-
-  public boolean getWantsScoreAlgae() {
-    return this.getRawButton(6);
-  }
-
+  public boolean getWantsBackupAndTurn() {
+    return this.getRawButton(5); 
+}
   public void outputTelemetry() {
     SmartDashboard.putNumber(m_smartDashboardKey + "Forward", getForwardAxis());
     SmartDashboard.putNumber(m_smartDashboardKey + "Turn", getTurnAxis());

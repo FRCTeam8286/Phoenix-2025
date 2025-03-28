@@ -45,6 +45,7 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants;
 import frc.robot.simulation.Field;
 import frc.robot.simulation.SimulatableCANSparkMax;
@@ -68,6 +69,8 @@ public class Drivetrain extends Subsystem {
   private static final double kWheelRadius = Units.inchesToMeters(3.0);
   private static final double kGearRatio = 10.71;
   private static final double kMetersPerRev = (2.0 * Math.PI * kWheelRadius) / kGearRatio;
+  private static final double kWheelDiameter = 2 * kWheelRadius; // Define wheel diameter
+  private static final double kEncoderUnitsPerRevolution = 4096; // Define encoder units per revolution (example value)
 
   private final SimulatableCANSparkMax mLeftLeader = new SimulatableCANSparkMax(Constants.Drive.kFLMotorId,
       MotorType.kBrushless);
@@ -421,5 +424,75 @@ public class Drivetrain extends Subsystem {
 
   public Command sysIdDynamic(SysIdRoutine.Direction direction) {
     return mSysIdRoutine.dynamic(direction);
+  }
+
+    // ...
+
+
+
+    /**
+
+
+     * @param angle 
+
+     */
+
+     public void turnToAngle(int angle){
+
+
+      System.out.println("Turning to angle: " + angle);}
+     
+  
+
+
+    /**
+
+     * Drives the robot a certain distance.
+
+     * @param distance The distance to drive in meters.
+
+     */
+
+     public void driveDistance(double distance) {
+
+     
+
+      System.out.println("Driving distance: " + distance + " meters");
+
+     }
+    
+     public void driveDistanceWithEncoders(double distance) {
+      // Reset encoders to start fresh
+      resetEncoders();
+  
+      // Calculate the target position in encoder units
+      double targetPosition = distanceToEncoderUnits(distance);
+  
+      // Drive until the target position is reached
+      while (Math.abs(getAverageEncoderPosition()) < Math.abs(targetPosition)) {
+          double speed = distance > 0 ? 0.5 : -0.5; // Set speed based on direction
+          drive(speed, 0); // Drive straight
+      }
+  
+      // Stop the robot
+      drive(0, 0);
+  }
+  
+  // Helper method to reset encoders
+  private void resetEncoders() {
+      mLeftEncoder.setPosition(0.0);
+      mRightEncoder.setPosition(0.0);
+  }
+  
+  // Helper method to get the average encoder position
+  private double getAverageEncoderPosition() {
+      return (mLeftEncoder.getPosition() + mRightEncoder.getPosition()) / 2.0;
+  }
+  
+  // Helper method to convert distance (meters) to encoder units
+  private double distanceToEncoderUnits(double distance) {
+      double wheelCircumference = Math.PI * kWheelDiameter; // Replace kWheelDiameter with your wheel diameter
+      double encoderUnitsPerRevolution = kEncoderUnitsPerRevolution; // Replace with your encoder's units per revolution
+      return (distance / wheelCircumference) * encoderUnitsPerRevolution;
   }
 }

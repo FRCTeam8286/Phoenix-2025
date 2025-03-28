@@ -17,6 +17,7 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
@@ -33,6 +34,8 @@ import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Subsystem;
 import frc.robot.subsystems.leds.LEDs;
 import au.grapplerobotics.CanBridge;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.ControlMode;
 
 
 /**
@@ -51,11 +54,25 @@ public class Robot extends LoggedRobot {
       CanBridge.runTCP();
       // ...
     }
+
+    // Method to set drive motor speeds
+    private void setDriveMotors(double leftSpeed, double rightSpeed) {
+        driveLeftVictorFront.set(ControlMode.PercentOutput, leftSpeed);
+        driveLeftVictorRear.set(ControlMode.PercentOutput, leftSpeed);
+        driveRightVictorFront.set(ControlMode.PercentOutput, rightSpeed);
+        driveRightVictorRear.set(ControlMode.PercentOutput, rightSpeed);
+    }
   
     // Controller
     private final DriverController m_driverController = new DriverController(0, true, true);
     private final OperatorController m_operatorController = new OperatorController(1, true, true);
     private final GenericHID sysIdController = new GenericHID(2);
+
+    // Motor controllers
+    private final TalonSRX driveLeftVictorFront = new TalonSRX(1); // Replace 1 with the correct CAN ID
+    private final TalonSRX driveLeftVictorRear = new TalonSRX(4); // Replace 4 with the correct CAN ID
+    private final TalonSRX driveRightVictorRear = new TalonSRX(3); // Replace 3 with the correct CAN ID
+    private final TalonSRX driveRightVictorFront = new TalonSRX(2); // Replace 2 with the correct CAN ID
   
     // private final SlewRateLimiter m_speedLimiter = new
     // SlewRateLimiter(Drivetrain.kMaxAcceleration);
@@ -180,11 +197,10 @@ public class Robot extends LoggedRobot {
       } else if (scorePressed) {
         scorePressed = false;
   
-        m_elevator.goToElevatorStow();
-        m_coral.intake();
-      } else if (m_driverController.getWantsScoreAlgae()) {
+       
+      } else if (m_operatorController.getWantsScoreAlgae()) {
         m_algae.score();
-      } else if (m_driverController.getWantsGroundAlgae()) {
+      } else if (m_operatorController.getWantsGroundAlgae()) {
         m_algae.groundIntake();
       }
   
@@ -216,26 +232,56 @@ public class Robot extends LoggedRobot {
         m_coral.intake();
       } 
   
-
-    // if (m_driverController.getWantsScoreCoral()) {
-    // if (m_elevator.getState() == Elevator.ElevatorState.STOW) {
-    // m_coral.scoreL1();
-    // } else {
-    // m_coral.scoreL24();
-    // }
-    // } else if (m_driverController.getWantsIntakeCoral()) {
-    // m_coral.intake();
-    // m_elevator.goToElevatorStow();
-    // }
-
-    // if (m_operatorController.getWantsElevatorReset() ||
-    // m_driverController.getWantsElevatorReset()) {
-    // RobotTelemetry.print("Resetting elevator");
-    // m_elevator.reset();
-    // }
-  }
-
-  @Override
+if (m_driverController.getWantsBackupAndTurn()) { 
+    driveLeftVictorFront.set(ControlMode.PercentOutput, -0.5);
+    driveLeftVictorRear.set(ControlMode.PercentOutput, -0.5);
+    driveRightVictorFront.set(ControlMode.PercentOutput, 0.5);
+    driveRightVictorRear.set(ControlMode.PercentOutput, 0.5);
+    Timer.delay(0.15); 
+    stopMotors(); 
+        driveLeftVictorFront.set(ControlMode.PercentOutput, -0.5);
+        driveLeftVictorRear.set(ControlMode.PercentOutput, -0.5);
+        driveRightVictorFront.set(ControlMode.PercentOutput, -0.5);
+        driveRightVictorRear.set(ControlMode.PercentOutput, -0.5);
+        Timer.delay(0.05);
+        stopMotors(); 
+            setDriveMotors(m_driverController.getRawAxis(4), m_driverController.getRawAxis(1));
+        driveLeftVictorRear.set(ControlMode.PercentOutput, 0.5);
+        driveRightVictorFront.set(ControlMode.PercentOutput, -0.5);
+        driveRightVictorRear.set(ControlMode.PercentOutput, -0.5);
+        Timer.delay(0.5); 
+        stopMotors(); 
+        } else {
+            setDriveMotors(m_driverController.getRawAxis(4), m_driverController.getRawAxis(1));
+        }
+      }
+    private void stopMotors() {
+        driveLeftVictorFront.set(ControlMode.PercentOutput, 0);
+        driveLeftVictorRear.set(ControlMode.PercentOutput, 0);
+        driveRightVictorFront.set(ControlMode.PercentOutput, 0);
+        driveRightVictorRear.set(ControlMode.PercentOutput, 0);
+    }
+        // if (m_driverController.getWantsScoreCoral()) {
+        // if (m_elevator.getState() == Elevator.ElevatorState.STOW) {
+        // m_coral.scoreL1();
+        // } else {
+        // m_coral.scoreL24();
+        // }
+        // } else if (m_driverController.getWantsIntakeCoral()) {
+        // m_coral.intake();
+        // m_elevator.goToElevatorStow();
+        // }
+    
+        // if (m_operatorController.getWantsElevatorReset() ||
+        // m_driverController.getWantsElevatorReset()) {
+        // RobotTelemetry.print("Resetting elevator");
+        // m_elevator.reset();
+        // }
+      
+    
+      // Removed duplicate stopMotors method to resolve the syntax error
+    
+      @Override
   public void disabledInit() {
     m_leds.rainbow();
     // m_leds.setColor(Color.kRed);
