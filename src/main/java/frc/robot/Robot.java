@@ -12,6 +12,8 @@ import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -182,8 +184,7 @@ public class Robot extends LoggedRobot {
           m_coral.scoreL24();
         }
       } else if (scorePressed) {
-        scorePressed = false;
-  
+        scorePressed = false; 
        
       } else if (m_operatorController.getWantsScoreAlgae()) {
         m_algae.score();
@@ -193,6 +194,25 @@ public class Robot extends LoggedRobot {
 
       if (m_operatorController.getWantsStopCoralIntake()) {
         m_coral.stop();
+      }
+
+      if (m_driverController.getWantsBumpLeft()) {
+        // Move backward
+        m_drive.drive(-.5,-.5);
+        Timer.delay(0.15); // Delay for .15 second
+        // Move at a 45-degree angle
+        m_drive.drive(1,0);
+        // Add a delay or condition to switch to forward movement
+        Timer.delay(0.15); // Delay for 0.05 second
+      }
+      if (m_driverController.getWantsBumpRight()) {
+        // Move backward
+        m_drive.drive(-.5,.5);
+        Timer.delay(0.15); // Delay for .15 second
+        // Move at a 45-degree angle
+        m_drive.drive(1,0);
+        // Add a delay or condition to switch to forward movement
+        Timer.delay(0.15); // Delay for 0.05 second
       }
   
       // FINAL OPERATOR CONTROLS
@@ -221,31 +241,30 @@ public class Robot extends LoggedRobot {
         m_elevator.goToAlgaeGround();
         m_algae.groundIntake();
       } else if (m_operatorController.getWantsCoralIntake()) {
-        m_coral.intake();}
-      } 
-  
+        m_coral.intake();
+      }
 
-        // if (m_driverController.getWantsScoreCoral()) {
-        // if (m_elevator.getState() == Elevator.ElevatorState.STOW) {
-        // m_coral.scoreL1();
-        // } else {
-        // m_coral.scoreL24();
-        // }
-        // } else if (m_driverController.getWantsIntakeCoral()) {
-        // m_coral.intake();
-        // m_elevator.goToElevatorStow();
-        // }
-    
-        // if (m_operatorController.getWantsElevatorReset() ||
-        // m_driverController.getWantsElevatorReset()) {
-        // RobotTelemetry.print("Resetting elevator");
-        // m_elevator.reset();
-        // }
+      // if (m_driverController.getWantsScoreCoral()) {
+      // if (m_elevator.getState() == Elevator.ElevatorState.STOW) {
+      // m_coral.scoreL1();
+      // } else {
+      // m_coral.scoreL24();
+      // }
+      // } else if (m_driverController.getWantsIntakeCoral()) {
+      // m_coral.intake();
+      // m_elevator.goToElevatorStow();
+      // }
+
+      // if (m_operatorController.getWantsElevatorReset() ||
+      // m_driverController.getWantsElevatorReset()) {
+      // RobotTelemetry.print("Resetting elevator");
+      // m_elevator.reset();
+      // }
       
     
       // Removed duplicate stopMotors method to resolve the syntax error
-    
-      @Override
+  }
+  @Override
   public void disabledInit() {
     m_leds.rainbow();
     // m_leds.setColor(Color.kRed);

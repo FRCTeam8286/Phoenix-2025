@@ -81,6 +81,7 @@ public class AutoRunner {
         break;
       case L2_SIDE_TEST:
         m_autoMode = new L2SideTest();
+        break;
       default:
         RobotTelemetry.print("Invalid auto mode selected. Defaulting to do nothing.");
         m_autoMode = new DoNothingMode();

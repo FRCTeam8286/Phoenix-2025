@@ -63,7 +63,7 @@ public class Constants {
     public static final int kWristMotorId = 13;
     public static final int kIntakeMotorId = 14;
 
-    public static final int kWristEncoderId = 9;
+    public static final int kWristEncoderId = 7;
 
     public static final int kMaxWristCurrent = 1;
 
@@ -83,7 +83,7 @@ public class Constants {
 
     public static final double kStowAngle = 350.0;
     public static final double kDeAlgaeAngle = 234.0;
-    public static final double kGroundIntakeAngle = .0;
+    public static final double kGroundIntakeAngle = 288.0;
 
     // INTAKE
     public static final int kMaxIntakeCurrent = 20;
