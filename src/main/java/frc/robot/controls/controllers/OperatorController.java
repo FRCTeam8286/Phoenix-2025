@@ -64,6 +64,10 @@ public boolean getWantsScoreAlgae() {
   return this.getRawButton(6);
 }
 
+public boolean getWantsStopCoralIntake() {
+  return this.getRawButton(4);
+}
+
 
 
 }

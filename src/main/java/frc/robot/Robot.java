@@ -34,8 +34,7 @@ import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Subsystem;
 import frc.robot.subsystems.leds.LEDs;
 import au.grapplerobotics.CanBridge;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.ControlMode;
+
 
 
 /**
@@ -55,25 +54,13 @@ public class Robot extends LoggedRobot {
       // ...
     }
 
-    // Method to set drive motor speeds
-    private void setDriveMotors(double leftSpeed, double rightSpeed) {
-        driveLeftVictorFront.set(ControlMode.PercentOutput, leftSpeed);
-        driveLeftVictorRear.set(ControlMode.PercentOutput, leftSpeed);
-        driveRightVictorFront.set(ControlMode.PercentOutput, rightSpeed);
-        driveRightVictorRear.set(ControlMode.PercentOutput, rightSpeed);
-    }
-  
+    
     // Controller
     private final DriverController m_driverController = new DriverController(0, true, true);
     private final OperatorController m_operatorController = new OperatorController(1, true, true);
     private final GenericHID sysIdController = new GenericHID(2);
 
-    // Motor controllers
-    private final TalonSRX driveLeftVictorFront = new TalonSRX(1); // Replace 1 with the correct CAN ID
-    private final TalonSRX driveLeftVictorRear = new TalonSRX(4); // Replace 4 with the correct CAN ID
-    private final TalonSRX driveRightVictorRear = new TalonSRX(3); // Replace 3 with the correct CAN ID
-    private final TalonSRX driveRightVictorFront = new TalonSRX(2); // Replace 2 with the correct CAN ID
-  
+    
     // private final SlewRateLimiter m_speedLimiter = new
     // SlewRateLimiter(Drivetrain.kMaxAcceleration);
     private final SlewRateLimiter m_rotLimiter = new SlewRateLimiter(Math.PI * 8);
@@ -203,6 +190,10 @@ public class Robot extends LoggedRobot {
       } else if (m_operatorController.getWantsGroundAlgae()) {
         m_algae.groundIntake();
       }
+
+      if (m_operatorController.getWantsStopCoralIntake()) {
+        m_coral.stop();
+      }
   
       // FINAL OPERATOR CONTROLS
       if (m_operatorController.getWantsElevatorStow()) {
@@ -227,40 +218,13 @@ public class Robot extends LoggedRobot {
         m_algae.stopAlgae();
         m_algae.stow();
       } else if (m_operatorController.getWantsGroundAlgae()) {
+        m_elevator.goToAlgaeGround();
         m_algae.groundIntake();
       } else if (m_operatorController.getWantsCoralIntake()) {
-        m_coral.intake();
+        m_coral.intake();}
       } 
   
-if (m_driverController.getWantsBackupAndTurn()) { 
-    driveLeftVictorFront.set(ControlMode.PercentOutput, -0.5);
-    driveLeftVictorRear.set(ControlMode.PercentOutput, -0.5);
-    driveRightVictorFront.set(ControlMode.PercentOutput, 0.5);
-    driveRightVictorRear.set(ControlMode.PercentOutput, 0.5);
-    Timer.delay(0.15); 
-    stopMotors(); 
-        driveLeftVictorFront.set(ControlMode.PercentOutput, -0.5);
-        driveLeftVictorRear.set(ControlMode.PercentOutput, -0.5);
-        driveRightVictorFront.set(ControlMode.PercentOutput, -0.5);
-        driveRightVictorRear.set(ControlMode.PercentOutput, -0.5);
-        Timer.delay(0.05);
-        stopMotors(); 
-            setDriveMotors(m_driverController.getRawAxis(4), m_driverController.getRawAxis(1));
-        driveLeftVictorRear.set(ControlMode.PercentOutput, 0.5);
-        driveRightVictorFront.set(ControlMode.PercentOutput, -0.5);
-        driveRightVictorRear.set(ControlMode.PercentOutput, -0.5);
-        Timer.delay(0.5); 
-        stopMotors(); 
-        } else {
-            setDriveMotors(m_driverController.getRawAxis(4), m_driverController.getRawAxis(1));
-        }
-      }
-    private void stopMotors() {
-        driveLeftVictorFront.set(ControlMode.PercentOutput, 0);
-        driveLeftVictorRear.set(ControlMode.PercentOutput, 0);
-        driveRightVictorFront.set(ControlMode.PercentOutput, 0);
-        driveRightVictorRear.set(ControlMode.PercentOutput, 0);
-    }
+
         // if (m_driverController.getWantsScoreCoral()) {
         // if (m_elevator.getState() == Elevator.ElevatorState.STOW) {
         // m_coral.scoreL1();

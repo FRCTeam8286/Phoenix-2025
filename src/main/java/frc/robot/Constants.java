@@ -14,7 +14,7 @@ public class Constants {
     public static final int kElevatorLeftMotorId = 9;
     // public static final int kElevatorRightMotorId = 10;
 
-    public static final double kP = 0.15;
+    public static final double kP = 0.18;
     public static final double kI = 0;
     public static final double kD = 0.0;
     public static final double kIZone = 5.0;
@@ -30,7 +30,7 @@ public class Constants {
     public static final double kL3Height = 375.15;
     public static final double kL4Height = 0.0;
     public static final double kMaxHeight = 560.2;
-    public static final double kGroundAlgaeHeight = 0.0;
+    public static final double kGroundAlgaeHeight = 16.0;
     public static final double kScoreAlgaeHeight = 0.0;                                                             
     public static final double kLowAlgaeHeight = 165;
     public static final double kHighAlgaeHeight = 375.15;
@@ -67,8 +67,8 @@ public class Constants {
 
     public static final int kMaxWristCurrent = 1;
 
-    public static final double kWristP = 0.01;
-    public static final double kWristI = 0.0;
+    public static final double kWristP = 0.005;
+    public static final double kWristI = 0;
     public static final double kWristD = 0.001;
 
     public static final double kWristKS = 0.0;
@@ -81,9 +81,9 @@ public class Constants {
     public static final double kWristMaxVelocity = 690;
     public static final double kWristMaxAcceleration = 1380;
 
-    public static final double kStowAngle = 356.0;
-    public static final double kDeAlgaeAngle = 236.0;
-    public static final double kGroundIntakeAngle = 289.0;
+    public static final double kStowAngle = 350.0;
+    public static final double kDeAlgaeAngle = 234.0;
+    public static final double kGroundIntakeAngle = .0;
 
     // INTAKE
     public static final int kMaxIntakeCurrent = 20;

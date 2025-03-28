@@ -207,5 +207,11 @@ public class Elevator extends Subsystem {
     mPeriodicIO.state = ElevatorState.A2;
   }
 
+  public void goToAlgaeGround() {
+    mPeriodicIO.is_elevator_pos_control = true;
+    mPeriodicIO.elevator_target = Constants.Elevator.kGroundAlgaeHeight;
+    mPeriodicIO.state = ElevatorState.A2;
+  }
+
   /*---------------------------------- Custom Private Functions ---------------------------------*/
 }
