@@ -36,6 +36,14 @@ public class DriverController extends FilteredController {
     return this.getRawButton(1); 
   }
 
+  public Boolean getWantsLeftNudge(){
+    return this.getRawButton(6);
+  }
+
+  public Boolean getWantsRightNudge(){
+    return this.getRawButton(5);
+  }
+
  
   public void outputTelemetry() {
     SmartDashboard.putNumber(m_smartDashboardKey + "Forward", getForwardAxis());

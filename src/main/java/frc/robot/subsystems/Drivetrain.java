@@ -50,7 +50,13 @@ import frc.robot.Constants;
 import frc.robot.simulation.Field;
 import frc.robot.simulation.SimulatableCANSparkMax;
 
-public class Drivetrain extends Subsystem {
+public class Drivetrain extends Subsystem {  
+  //Nudge states
+
+  public boolean m_nudgeLeft = false;
+  public boolean m_nudgeRight = false;
+  private double m_NudgeStartTime = 0.0;
+
   // 1 meters per second.
   public static final double kMaxSpeed = 1.0;
   public static final double kMaxBoostSpeed = 2.0;
@@ -387,6 +393,27 @@ public class Drivetrain extends Subsystem {
     updateOdometry();
 
     m_field.setRobotPose(getPose());
+
+    if (m_nudgeLeft || m_nudgeRight) {
+      // Step 1: Move backward
+      if ((Timer.getFPGATimestamp() - m_NudgeStartTime) < 0.2){
+        drive(-.9, 0);
+      } else if (m_nudgeLeft && (Timer.getFPGATimestamp() - m_NudgeStartTime) < 0.4) {
+          drive(0, -.9); // Turn left
+          System.out.println("Turning left.");
+      } else if (m_nudgeRight && (Timer.getFPGATimestamp() - m_NudgeStartTime) < 0.4) {
+          drive(0, 0.9); // Turn right
+          System.out.println("Turning right.");
+      } else if ((Timer.getFPGATimestamp() - m_NudgeStartTime) < .8) {
+      drive(.5, 0);
+      System.out.println("Moving forward.");
+      } else {
+        drive(0, 0);
+        System.out.println(" nudge complete.");
+        m_nudgeLeft = false;
+        m_nudgeRight = false;
+      }
+    }
   }
 
   @Override
@@ -494,5 +521,20 @@ public class Drivetrain extends Subsystem {
       double wheelCircumference = Math.PI * kWheelDiameter; // Replace kWheelDiameter with your wheel diameter
       double encoderUnitsPerRevolution = kEncoderUnitsPerRevolution; // Replace with your encoder's units per revolution
       return (distance / wheelCircumference) * encoderUnitsPerRevolution;
+  }
+
+    /**
+   * Performs a nudge action.
+   *
+   * @param direction The direction of the nudge ("left" or "right").
+   */
+  public void performNudge(String direction, Double StartTime) {
+    m_NudgeStartTime = StartTime;;
+    System.out.println(direction + " nudge activated.");
+    if (direction.equalsIgnoreCase("Left")) {
+      m_nudgeLeft = true;
+    } else if (direction.equalsIgnoreCase("Right")) {
+      m_nudgeRight = true;
+    }
   }
 }

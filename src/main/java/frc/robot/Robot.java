@@ -14,9 +14,6 @@ import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
-
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -86,7 +83,7 @@ public class Robot extends LoggedRobot {
   
     // Simulation stuff
     private final Field m_field = Field.getInstance();
-  
+      
     /**
      * This function is run when the robot is first started up.
      */
@@ -174,9 +171,9 @@ public class Robot extends LoggedRobot {
       // m_drive.slowMode(m_driverController.getWantsSlowMode());
       // m_drive.speedMode(m_driverController.getWantsSpeedMode());
       double rot = m_rotLimiter.calculate(m_driverController.getTurnAxis() * Drivetrain.kMaxAngularSpeed);
-  
-      m_drive.drive(xSpeed, rot);
-  
+      if (!m_drive.m_nudgeLeft && !m_drive.m_nudgeRight) {
+        m_drive.drive(xSpeed, rot);
+      }
       // FINAL DRIVER CONTROLS
       if (m_driverController.getWantsScoreCoral()) {
         scorePressed = true;
@@ -194,22 +191,13 @@ public class Robot extends LoggedRobot {
       } else if (m_operatorController.getWantsGroundAlgae()) {
         m_algae.groundIntake();
       }
-      if (m_driverController.getRawButtonPressed(5)) {
-          double kFLMotorId =8.0;
-          Timer.delay(0.5);
-          // Move at a 45-degree angle
-          m_drive.driveDistance( 2);
-          Timer.delay(0.05);
-          m_drive.drive(2, 2 );
-          Timer.delay(0.5);
+      // THE NUDGE (Left)
+      if (m_driverController.getWantsLeftNudge()) {
+        m_drive.performNudge("Left", Timer.getFPGATimestamp());
       } 
-      if (m_driverController.getRawButtonPressed(6)) {
-        m_drive.drive(-2, 0 );
-        Timer.delay(0.15);
-        m_drive.drive(2, 2);
-        Timer.delay(0.05); 
-        m_drive.drive(2, 0);{}
-        Timer.delay(0.5);
+      // THE NUDGE (Right)
+      if (m_driverController.getWantsRightNudge()) {
+        m_drive.performNudge("Right", Timer.getFPGATimestamp());
       }
       if (m_operatorController.getWantsStopCoralIntake()) {
         m_coral.stop();
