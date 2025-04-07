@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -12,8 +13,6 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import frc.robot.Constants;
 import frc.robot.simulation.SimulatableCANSparkMax;
-import frc.robot.wrappers.REVThroughBoreEncoder;
-import edu.wpi.first.wpilibj.Timer;
 
 public class Algae extends Subsystem {
   
@@ -42,7 +41,7 @@ public class Algae extends Subsystem {
 
   private SimulatableCANSparkMax mIntakeMotor;
 
-  private final REVThroughBoreEncoder mWristAbsEncoder = new REVThroughBoreEncoder(Constants.Algae.kWristEncoderId);
+  private final AbsoluteEncoder mWristAbsEncoder;
 
   private Algae() {
     super("Algae");
@@ -51,6 +50,7 @@ public class Algae extends Subsystem {
 
     // WRIST
     mWristMotor = new SimulatableCANSparkMax(Constants.Algae.kWristMotorId, MotorType.kBrushless);
+    mWristAbsEncoder = mWristMotor.getAbsoluteEncoder();
     SparkMaxConfig wristConfig = new SparkMaxConfig();
     wristConfig
         .idleMode(IdleMode.kCoast)
@@ -138,7 +138,6 @@ public class Algae extends Subsystem {
     putNumber("Wrist/Current", mWristMotor.getOutputCurrent());
     putNumber("Wrist/Output", mWristMotor.getAppliedOutput());
     putNumber("Wrist/Voltage", mPeriodicIO.wrist_voltage);
-    putNumber("Wrist/Frequency", mWristAbsEncoder.getFrequency());
 
     putNumber("Intake/Current", mIntakeMotor.getOutputCurrent());
     putNumber("Intake/Output", mIntakeMotor.getAppliedOutput());
@@ -191,7 +190,7 @@ public class Algae extends Subsystem {
     // TODO:
     // This used to be `getAbsolutePosition` in the old API
     // but I'm not sure if `get` is the correct replacement
-    return Units.rotationsToDegrees(mWristAbsEncoder.get());
+    return Units.rotationsToDegrees(mWristAbsEncoder.getPosition());
   }
 
   public double getWristReferenceToHorizontal() {

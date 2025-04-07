@@ -35,12 +35,8 @@ public class DriverController extends FilteredController {
   public boolean getWantsBackupAndTurn() {
     return this.getRawButton(1); 
   }
-  public boolean getWantsBumpLeft(){
-    return this.getRawButton(4);
-  }
-  public boolean getWantsBumpRight(){
-    return this.getRawButton(5);
-  }
+
+ 
   public void outputTelemetry() {
     SmartDashboard.putNumber(m_smartDashboardKey + "Forward", getForwardAxis());
     SmartDashboard.putNumber(m_smartDashboardKey + "Turn", getTurnAxis());
